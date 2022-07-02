@@ -2,7 +2,7 @@ Shader "Custom/ParameterExample"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
+        _MainColor ("Color", Color) = (1,1,1,1)
         _AmbientColor ("Ambient Color", Color) = (1, 1, 1, 1)
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
@@ -32,7 +32,7 @@ Shader "Custom/ParameterExample"
 
         half _Glossiness;
         half _Metallic;
-        fixed4 _Color;
+        fixed4 _MainColor;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -44,7 +44,7 @@ Shader "Custom/ParameterExample"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             // Albedo comes from a texture tinted by color
-            fixed4 c = pow((_Color + _AmbientColor), _MySliderValue);
+            fixed4 c = pow((_MainColor + _AmbientColor), _MySliderValue);
 
             o.Albedo = c.rgb;
 

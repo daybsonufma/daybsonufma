@@ -2,7 +2,7 @@ Shader "UFMA/CH2/StandardColor"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
+        _MainColor ("Color", Color) = (1,1,1,1)
         _AmbientColor ("Ambient Color", Color) = (1, 1, 1, 1)
         _Glossiness ("Smoothness", Range(0,1)) = 0.5
         _Metallic ("Metallic", Range(0,1)) = 0.0
@@ -26,7 +26,7 @@ Shader "UFMA/CH2/StandardColor"
 
         half _Glossiness;
         half _Metallic;
-        fixed4 _Color;
+        fixed4 _MainColor;
 
         // Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
         // See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -38,7 +38,7 @@ Shader "UFMA/CH2/StandardColor"
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
             // Albedo comes from a texture tinted by color
-            fixed4 c = _Color;
+            fixed4 c = _MainColor;
             o.Albedo = c.rgb;
             // Metallic and smoothness come from slider variables
             o.Metallic = _Metallic;

@@ -2,7 +2,7 @@ Shader "UFMA/CH5/BlinPhong"
 {
      Properties
     {
-        _MainTint("Diffuse Tint", Color) = (1,1,1,1)
+        _MainColor("Diffuse Tint", Color) = (1,1,1,1)
         _MainTex("Base (RGB)", 2D) = "white" {}
         _SpecularColor("Specular Color", Color) = (1,1,1,1)
         _SpecPower("Specular Power", Range(0.1,60)) = 3
@@ -20,7 +20,7 @@ Shader "UFMA/CH5/BlinPhong"
         #pragma target 3.0
 
         sampler2D _MainTex;
-        float4 _MainTint;
+        float4 _MainColor;
         float4 _SpecularColor;
         float _SpecPower;
 
@@ -40,7 +40,7 @@ Shader "UFMA/CH5/BlinPhong"
 
         void surf(Input IN, inout SurfaceOutput o)
         {
-            half4 c = tex2D(_MainTex, IN.uv_MainTex) * _MainTint;
+            half4 c = tex2D(_MainTex, IN.uv_MainTex) * _MainColor;
             o.Albedo = c.rgb;
             o.Alpha = c.a;
             o.Normal = normalize(o.Normal);

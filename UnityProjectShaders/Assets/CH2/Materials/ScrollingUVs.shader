@@ -2,7 +2,7 @@ Shader "UFMA/CH4/ScrollingUVs"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
+        _MainColor ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
         _ScrollXSpeed ("Scroll X Speed", Range(0,10)) = 3
         _ScrollYSpeed ("Scroll Y Speed", Range(0,10)) = 3
@@ -19,7 +19,7 @@ Shader "UFMA/CH4/ScrollingUVs"
         sampler2D _MainTex;
         fixed _ScrollXSpeed;
         fixed _ScrollYSpeed;
-        fixed4 _Color;
+        fixed4 _MainColor;
 
         struct Input
         {
@@ -39,7 +39,7 @@ Shader "UFMA/CH4/ScrollingUVs"
             scrolledUV += fixed2(xScrollValue, yScrollValue);
 
             half4 c = tex2D(_MainTex, scrolledUV);
-            o.Albedo = c.rgb * _Color;
+            o.Albedo = c.rgb * _MainColor;
             o.Alpha = c.a;
         }
         ENDCG

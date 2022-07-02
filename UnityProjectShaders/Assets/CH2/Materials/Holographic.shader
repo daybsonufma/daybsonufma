@@ -2,9 +2,9 @@ Shader "UFMA/CH3/Holographic"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
+        _MainColor ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        _DotProduct("Rim effect", Range(-1, 1)) = 0.25
+        _RimEffect("Rim effect", Range(-1, 1)) = 0.25
     }
     SubShader
     {
@@ -24,7 +24,7 @@ Shader "UFMA/CH3/Holographic"
         #pragma surface surf Lambert alpha:fade
         #pragma target 3.0
 
-        float _DotProduct;
+        float _RimEffect;
 
         sampler2D _MainTex;
 
@@ -35,21 +35,21 @@ Shader "UFMA/CH3/Holographic"
             float3 viewDir;
         };
 
-        fixed4 _Color;
+        fixed4 _MainColor;
 
         UNITY_INSTANCING_BUFFER_START(Props)
         UNITY_INSTANCING_BUFFER_END(Props)
 
         void surf (Input IN, inout SurfaceOutput o)
         {
-            float4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
+            float4 c = tex2D(_MainTex, IN.uv_MainTex) * _MainColor;
 
             o.Albedo = c.rgb;
 
             //quanto mais alinhado com a vista, menor será o valor de border (mais transparente)
             float border = 1 - abs(dot(IN.viewDir, IN.worldNormal));
 
-            float alpha = (border * (1 - _DotProduct) + _DotProduct);
+            float alpha = (border * (1 - _RimEffect) + _RimEffect);
             o.Alpha = c.a * alpha;
         }
         ENDCG

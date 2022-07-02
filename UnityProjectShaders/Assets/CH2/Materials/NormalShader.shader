@@ -2,7 +2,7 @@ Shader "UFMA/CH3/NormalShader"
 {
     Properties
     {
-        _MainTint ("Diffuse Tint", Color) = (0,1,0,1)
+        _MainColor ("Diffuse Tint", Color) = (0,1,0,1)
         _NormalTex ("Normal Map", 2D) = "bump" {}
         _NormalIntensity ("Normal Intensity", Range(0, 3)) = 1
     }
@@ -19,7 +19,7 @@ Shader "UFMA/CH3/NormalShader"
         #pragma target 3.0
 
         sampler2D _NormalTex;
-        float4 _MainTint;
+        float4 _MainColor;
         float _NormalIntensity;
 
         struct Input
@@ -36,7 +36,7 @@ Shader "UFMA/CH3/NormalShader"
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
-            o.Albedo = _MainTint;
+            o.Albedo = _MainColor;
 
             //Get normal map from texture
             float3 normalMap = UnpackNormal(tex2D(_NormalTex, IN.uv_NormalTex));

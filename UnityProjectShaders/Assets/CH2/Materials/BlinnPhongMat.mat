@@ -31,6 +31,7 @@ Material:
     m_Floats:
     - _SpecPower: 3
     m_Colors:
+    - _MainColor: {r: 0.49056602, g: 0.21628354, b: 0, a: 1}
     - _MainTint: {r: 0.5754717, g: 0.19486392, b: 0.04071733, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

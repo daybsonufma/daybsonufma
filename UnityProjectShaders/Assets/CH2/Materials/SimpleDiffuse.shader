@@ -2,7 +2,7 @@ Shader "UFMA/CH3/SimpleDiffuse"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
+        _MainColor ("Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -23,11 +23,11 @@ Shader "UFMA/CH3/SimpleDiffuse"
             float2 uv_MainTex;
         };
 
-        fixed4 _Color;
+        fixed4 _MainColor;
 
         void surf (Input IN, inout SurfaceOutputStandard o)
         {
-            o.Albedo = _Color.rgb;
+            o.Albedo = _MainColor.rgb;
         }
         ENDCG
     }
