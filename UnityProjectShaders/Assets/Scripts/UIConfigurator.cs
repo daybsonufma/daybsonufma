@@ -17,6 +17,8 @@ public class UIConfigurator : MonoBehaviour
     public Slider sliderCameraSpeed;
     public TextMeshProUGUI txtCameraSpeed;
 
+    [Space]
+
     public TMP_Dropdown dropdownType;
     public Slider sliderIntensity;
     public Toggle toggleShadow;
@@ -30,6 +32,9 @@ public class UIConfigurator : MonoBehaviour
 
     public Slider sliderAngleSpot;
     public TextMeshProUGUI txtAngleSpot;
+
+    public Slider sliderRangePoint;
+    public TextMeshProUGUI txtRangePoint;
 
     public Light MainLight;
     private LineGizmo lineGizmoLight;
@@ -54,11 +59,14 @@ public class UIConfigurator : MonoBehaviour
     public Slider specularPowerShader;
     public TextMeshProUGUI txtSpecularPower;
 
-    public Slider specularTransparency;
+    public Slider sliderTransparency;
     public TextMeshProUGUI txtTransparency;
 
     public GameObject buttonsMainColor;
     public GameObject buttonsSpecColor;
+
+    public Toggle toggleElements;
+    public List<GameObject> sceneElements;
 
     private void Awake()
     {
@@ -102,6 +110,16 @@ public class UIConfigurator : MonoBehaviour
             }
         });
 
+
+        sliderRangePoint.onValueChanged.AddListener((v) =>
+        {
+            if (MainLight.type == LightType.Point)
+            {
+                MainLight.range = v;
+                txtRangePoint.text = $"{v.ToString("F2")}";
+            }
+        });
+
         specularPowerShader.onValueChanged.AddListener((v) =>
         {
             foreach (var item in Car2Materials)
@@ -114,7 +132,7 @@ public class UIConfigurator : MonoBehaviour
             }
         });
 
-        specularTransparency.onValueChanged.AddListener((v) =>
+        sliderTransparency.onValueChanged.AddListener((v) =>
         {
             foreach (var item in Car2Materials)
             {
@@ -129,6 +147,8 @@ public class UIConfigurator : MonoBehaviour
         toggleShadow.onValueChanged.AddListener((c) => MainLight.shadows = c ? LightShadows.Soft : LightShadows.None);
 
         toggleAnimate.onValueChanged.AddListener((c) => cameraTour.enabled = c);
+
+        toggleElements.onValueChanged.AddListener((c) => sceneElements.ForEach(o => o.SetActive(c)));
 
         buttonsMainColor.GetComponentsInChildren<Button>().ToList().ForEach(b =>
         {
@@ -168,6 +188,7 @@ public class UIConfigurator : MonoBehaviour
 
     private void OnShaderTypeChange(int o)
     {
+        sliderTransparency.interactable = false;
         currentShader = DefaultShader;
         switch (o)
         {
@@ -182,6 +203,7 @@ public class UIConfigurator : MonoBehaviour
                 currentShader = BlinPhong;
                 break;
             case 3:
+                sliderTransparency.interactable = true;
                 currentShader = Holographic;
                 break;
             default:
@@ -223,13 +245,17 @@ public class UIConfigurator : MonoBehaviour
     public void OnLightTypeChange(int i)
     {
         sliderAngleSpot.interactable = false;
-
+        sliderRangePoint.interactable = false;
         switch (i)
         {
             case 0:
-                MainLight.type = LightType.Directional; break;
+                MainLight.type = LightType.Directional;
+                break;
             case 1:
-                MainLight.type = LightType.Point; break;
+                MainLight.type = LightType.Point;
+                sliderRangePoint.interactable = true;
+                sliderRangePoint.value = MainLight.range;
+                break;
             case 2:
                 MainLight.type = LightType.Spot;
                 sliderAngleSpot.interactable = true;
